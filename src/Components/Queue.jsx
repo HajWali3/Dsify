@@ -78,7 +78,7 @@ const Queue = () => {
   const selectOptions = ["Static", "Dynamic"];
 
   return (
-    <div className="p-5">
+    <div className="p-5  bg-gray-100 h-screen">
       <div className="flex">
         <Selector handleSelect={handleSelect} selectOptions={selectOptions} />
         {isQueueStatic && <InputBox getSize={getSize} />}
@@ -112,7 +112,7 @@ const Queue = () => {
           </button>
           <button
             onClick={emptyQueue}
-            className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 focus:ring-2 focus:ring-red-400 transition"
+            className="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-400 transition"
           >
             Empty Queue
           </button>

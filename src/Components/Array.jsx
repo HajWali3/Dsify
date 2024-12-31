@@ -9,7 +9,6 @@ const Array = () => {
   const [isArrayStatic, setIsArrayStatic] = useState(false);
   const [arraySizeLimit, setArraySizeLimit] = useState(false);
   const [arrayFullMessage, setArrayFullMessage] = useState(false);
-
   const [disabledCondition, setDisabledCondition] = useState(true);
 
   const add = () => {
@@ -76,7 +75,7 @@ const Array = () => {
   const selectOptions = ["Static", "Dynamic"];
 
   return (
-    <div className=" p-5">
+    <div className=" p-5 bg-gray-100 h-screen">
       <div className="flex">
         <Selector handleSelect={handleSelect} selectOptions={selectOptions} />
         {isArrayStatic && <InputBox getSize={getSize} />}
@@ -110,7 +109,7 @@ const Array = () => {
           </button>
           <button
             onClick={empty}
-            className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 focus:ring-2 focus:ring-red-400 transition"
+            className="bg-yellow-500 text-white px-6 py-3 rounded-md hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-400 transition"
           >
             Empty
           </button>
@@ -128,9 +127,9 @@ const Array = () => {
             <p className="text-gray-500 italic">Array is empty</p>
           ) : (
             array.map((element, index) => (
-              <div key={index} className="flex flex-col items-center m-2">
+              <div key={index} className="flex flex-col items-center m-2  ">
                 {/* Element */}
-                <div className="flex items-center justify-center bg-blue-500 text-white text-2xl font-black w-16 h-16 rounded-lg shadow-md mb-2">
+                <div className="flex items-center justify-center bg-blue-500 text-white text-2xl font-black w-16 h-16 rounded-lg shadow-md mb-2  ">
                   {element}
                 </div>
                 {/* Index */}

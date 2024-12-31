@@ -23,7 +23,7 @@ const Stack = () => {
   const pop = () => {
     setStack((prev) => {
       const newStack = [...prev];
-      newStack.pop();
+      newStack.shift();
       return newStack;
     });
     setPeekIndex(null);
@@ -39,7 +39,7 @@ const Stack = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="p-5  bg-gray-100 h-screen">
       <h1 className="text-3xl font-semibold text-center text-gray-700 ">
         Stack Visualization
       </h1>

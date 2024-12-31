@@ -1,83 +1,111 @@
 import React, { useState } from "react";
 
-// Node Component
-const TreeNode = ({ value, left, right }) => {
-  return (
-    <div className="tree-node flex flex-col items-center">
-      <div className="bg-white border-2 border-black rounded-full w-16 h-16 flex items-center justify-center">
-        {value}
-      </div>
-      <div className="flex space-x-4 mt-4">
-        {left && <TreeNode {...left} />}
-        {right && <TreeNode {...right} />}
-      </div>
-      <div className="flex justify-between w-full">
-        {left && <div className="arrow"></div>}
-        {right && <div className="arrow"></div>}
-      </div>
-    </div>
-  );
-};
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
 
-// BinaryTree Component
-const BinaryTree = () => {
-  const [tree, setTree] = useState(null);
-  const [inputValue, setInputValue] = useState("");
+const TreeVisualization = () => {
+  const [root, setRoot] = useState(null);
+  const [value, setValue] = useState("");
 
-  const addNode = (value, node = tree) => {
-    if (!node) {
-      return { value, left: null, right: null };
-    }
-    if (value < node.value) {
-      return { ...node, left: addNode(value, node.left) };
-    } else {
-      return { ...node, right: addNode(value, node.right) };
-    }
-  };
-
-  const add = () => {
-    const parsedValue = parseInt(inputValue);
-    if (!isNaN(parsedValue)) {
-      setTree((prev) => addNode(parsedValue, prev));
-      setInputValue("");
-    } else {
+  const addNode = () => {
+    if (!value.trim()) return;
+    const newValue = parseInt(value, 10);
+    if (isNaN(newValue)) {
       alert("Please enter a valid number");
+      setValue("");
+      return;
     }
+
+    const newNode = new TreeNode(newValue);
+
+    const insertNode = (current, newNode) => {
+      if (newNode.value < current.value) {
+        if (!current.left) {
+          current.left = newNode;
+        } else {
+          insertNode(current.left, newNode);
+        }
+      } else {
+        if (!current.right) {
+          current.right = newNode;
+        } else {
+          insertNode(current.right, newNode);
+        }
+      }
+    };
+
+    if (!root) {
+      setRoot(newNode);
+    } else {
+      insertNode(root, newNode);
+    }
+
+    setValue("");
   };
 
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
+  const clearTree = () => {
+    setRoot(null);
+  };
+
+  const renderTree = (node) => {
+    if (!node) return null;
+
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-16 h-16 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full mb-2">
+          {node.value}
+        </div>
+        <div className="flex space-x-4">
+          {renderTree(node.left)}
+          {renderTree(node.right)}
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="p-5">
-      <div className="flex flex-col items-center mx-20">
-        <h1 className="text-3xl font-semibold mb-6 text-center text-gray-700">
+    <div className="p-5 flex flex-col items-center min-h-screen bg-gray-100">
+      <div className="bg-white p-5 rounded shadow w-full max-w-2xl">
+        <h1 className="text-2xl font-bold mb-4 text-center">
           Binary Tree Visualization
         </h1>
-
-        <div className="flex justify-center items-center space-x-4 mb-6">
+        <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 mb-5">
           <input
             type="text"
-            placeholder="Enter value"
-            value={inputValue}
-            onChange={handleChange}
-            className="border border-gray-400 p-3 rounded-md w-48 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter node value"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            className="border border-gray-400 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
-            onClick={add}
-            className="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 focus:ring-2 focus:ring-green-400 transition"
+            onClick={addNode}
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
           >
-            Add
+            Add Node
+          </button>
+          <button
+            onClick={clearTree}
+            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+          >
+            Clear Tree
           </button>
         </div>
 
-        <div className="mt-6 flex justify-center">
-          {tree ? <TreeNode {...tree} /> : <div>No nodes in the tree</div>}
+        <div className="flex justify-center py-4">
+          {root ? (
+            renderTree(root)
+          ) : (
+            <p className="text-gray-500 italic">Tree is empty.</p>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default BinaryTree;
+export default TreeVisualization;
